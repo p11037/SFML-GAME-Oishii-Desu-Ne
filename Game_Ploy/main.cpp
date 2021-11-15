@@ -103,7 +103,7 @@ void Showscoreboard(sf::RenderWindow& window, float x)
 }
 int main()
 {
-    int Score = 0, TimeCandy = 0, TimeEnemy = 0, TimeCookie = 0, TimeErase = 0, GameMode = 4;
+    int Score = 0, TimeCandy = 0, TimeEnemy = 0, TimeCookie = 0, TimeErase = 0, GameMode = 1;
     float SumTime = 0.0f,MainTime = 100.0f;
     int R1 = 0,R2 = 0;
     string name;
@@ -145,6 +145,8 @@ int main()
         Sym2_Score_p.loadFromFile("Pic/2.png");
     sf::Texture Scoreboard_p;
         Scoreboard_p.loadFromFile("Pic/Scoreboard.png");
+    sf::Texture BgN_p;
+        BgN_p.loadFromFile("Pic/BgN.png");
     sf::Texture NEXT_pic;
         NEXT_pic.loadFromFile("Pic/NEXT.png");
     sf::Texture PLAY_pic;
@@ -169,13 +171,15 @@ int main()
     Platform c(&c_pic, sf::Vector2f(400, 50), sf::Vector2f(950, 480));
     Platform Bg_Score(&B_Score, sf::Vector2f(250, 150), sf::Vector2f(280, 170));
     Platform Bg_Score2(&B_Score, sf::Vector2f(250, 150), sf::Vector2f(1580, 170));
+    Platform BgN(&BgN_p, sf::Vector2f(900, 400), sf::Vector2f(970, 490));
     Platform Sym1_Score(&Sym1_Score_p, sf::Vector2f(80, 80), sf::Vector2f(1450, 170));
     Platform Sym2_Score(&Sym2_Score_p, sf::Vector2f(100, 100), sf::Vector2f(430, 170));
-    Platform NEXT(&NEXT_pic, sf::Vector2f(200.0f, 200.0f), sf::Vector2f(1450.0f, 650.0f));
-    Platform SCORE(&SCORE_pic, sf::Vector2f(200.0f, 200.0f), sf::Vector2f(550.0f, 800.0f));
-    Platform PLAY(&PLAY_pic, sf::Vector2f(200.0f, 200.0f), sf::Vector2f(1000.0f, 800.0f));
-    Platform EXIT(&EXIT_pic, sf::Vector2f(200.0f, 200.0f), sf::Vector2f(1450.0f, 800.0f));
-    Platform EXIT2(&EXIT_pic, sf::Vector2f(150.0f, 150.0f), sf::Vector2f(1250.0f, 950.0f));
+    Platform NEXT(&NEXT_pic, sf::Vector2f(200.0f, 200.0f), sf::Vector2f(1450.0f, 900.0f));
+    Platform BACK1(&BACK_pic, sf::Vector2f(190.0f, 190.0f), sf::Vector2f(500.0f, 900.0f));
+    Platform SCORE(&SCORE_pic, sf::Vector2f(200.0f, 200.0f), sf::Vector2f(570.0f, 800.0f));
+    Platform PLAY(&PLAY_pic, sf::Vector2f(200.0f, 200.0f), sf::Vector2f(970.0f, 800.0f));
+    Platform EXIT(&EXIT_pic, sf::Vector2f(200.0f, 200.0f), sf::Vector2f(1370.0f, 800.0f));
+    Platform EXIT2(&EXIT_pic, sf::Vector2f(150.0f, 150.0f), sf::Vector2f(1200.0f, 950.0f));
     Platform BACK(&BACK_pic, sf::Vector2f(140.0f, 140.0f), sf::Vector2f(650.0f, 950.0f));
     srand(time(NULL));
     float deltaTime = 0.0f;
@@ -192,9 +196,7 @@ int main()
         {
             if (ev.type == sf::Event::Closed)
                 window.close();
- 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
-                window.close();
+     
             if (GameMode == 2)
             {
                 if (ev.type == sf::Event::TextEntered)
@@ -216,9 +218,53 @@ int main()
 
         int x = sf::Mouse::getPosition().x;
         int y = sf::Mouse::getPosition().y;
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && x >= 1400.0f && x <= 1800.0f && y >= 800.0f && y <= 1000.0f)
+
+        //PLAY
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && x >= 870.0f && x <= 1070.0f && y >= 700.0f && y <= 900.0f && GameMode == 1)
+        {
+            GameMode = 2;
+        }
+
+        //SCORE
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && x >= 470.0f && x <= 670.0f && y >= 700.0f && y <= 900.0f && GameMode == 1)
+        {
+            GameMode = 4;
+        }
+
+        //EXIT
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && x >= 1270.0f && x <= 1470.0f && y >= 700.0f && y <= 900.0f && GameMode == 1)
+        {
+            window.close();
+        }
+
+        //NEXT
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && x >= 1350.0f && x <= 1550.0f && y >= 800.0f && y <= 1000.0f && GameMode==2)
         {
             GameMode = 3;
+        } 
+
+        //BACK1
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && x >= 400.0f && x <= 600.0f && y >= 800.0f && y <= 1000.0f && GameMode == 2)
+        {
+            GameMode = 1;
+        }
+
+        //EXIT2
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && x >= 1125.0f && x <= 1275.0f && y >= 875.0f && y <= 1025.0f && GameMode == 4)
+        {
+            window.close();
+        }
+
+        //BACK
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && x >= 580.0f && x <= 1670.0f && y >= 870.0f && y <= 1020.0f && GameMode == 4)
+        {
+            GameMode = 1;
+        }
+
+        //BACK2
+        if (GameMode == 3 && sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+        {
+            GameMode = 1;
         }
 
         if (GameMode == 3)
@@ -300,7 +346,6 @@ int main()
                 else Item.push_back(Platform(&Choco, sf::Vector2f(80.0f, 80.0f), sf::Vector2f(R1, -100.0f)));
                 SumTime -= 0.7f;
             }
-
         }
         
         
@@ -440,9 +485,10 @@ int main()
         if (GameMode == 2)
         {
             Background.Draw(window);
+            BgN.Draw(window);
             if(!name.empty())
-            ShowScoretexet(500, 400, name, 100,sf::Color::Magenta, window, &Font);
-            else ShowScoretexet(500, 400, "Enter Name", 100, sf::Color::Magenta, window, &Font);
+            ShowScoretexet(680, 400, name, 100,sf::Color::Magenta, window, &Font);
+            else ShowScoretexet(680, 400, "Enter Name", 100, sf::Color::Magenta, window, &Font);
             NEXT.Draw(window);
         }
         if (GameMode == 3)
@@ -467,6 +513,7 @@ int main()
             Bg_Score2.Draw(window);
             Sym1_Score.Draw(window);
             Sym2_Score.Draw(window);
+            BACK2.Draw(window);
             
             //Text
             Showtexet(190, 110, Score, 90, window, &Font);

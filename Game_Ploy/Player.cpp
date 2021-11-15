@@ -25,7 +25,7 @@ void Player::Update(float deltaTime)
 	velocity.x = 0.0f;
 	
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)&&body.getPosition().x>body.getOrigin().x)
-		velocity.x -= speed ;
+		velocity.x -= speed ; 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && body.getPosition().x < VIEW_WIDTH-body.getOrigin().x)
 		velocity.x += speed ;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)&&canJump)
