@@ -103,8 +103,8 @@ void Showscoreboard(sf::RenderWindow& window, float x)
 }
 int main()
 {
-    int Score = 0, TimeCandy = 0, TimeEnemy = 0, TimeCookie = 0, TimeErase = 0, GameMode = 1;
-    float SumTime = 0.0f,MainTime = 100.0f;
+    int Score = 0, TimeCandy = 0, TimeEnemy = 0, TimeCookie = 0, TimeErase = 0, GameMode = 1,lock_status=0;
+    float SumTime = 0.0f,MainTime = 100.0f,spaceTime=0.0f;
     int R1 = 0,R2 = 0;
     string name;
     sf::RenderWindow window(sf::VideoMode(VIEW_WIDTH, VIEW_HEIGHT), "Game's Ploy", sf::Style::Titlebar | sf::Style::Close | sf::Style::Fullscreen);
@@ -157,6 +157,8 @@ int main()
         EXIT_pic.loadFromFile("Pic/EXIT.png");
     sf::Texture BACK_pic;
         BACK_pic.loadFromFile("Pic/BACK.png");
+    sf::Texture Key_pic;
+        Key_pic.loadFromFile("Pic/Key.png");
 
     Player player(&playerTexture, sf::Vector2u(20, 3), 0.075f, 400.0f,250.0f);
     
@@ -181,6 +183,7 @@ int main()
     Platform EXIT(&EXIT_pic, sf::Vector2f(200.0f, 200.0f), sf::Vector2f(1370.0f, 800.0f));
     Platform EXIT2(&EXIT_pic, sf::Vector2f(150.0f, 150.0f), sf::Vector2f(1200.0f, 950.0f));
     Platform BACK(&BACK_pic, sf::Vector2f(140.0f, 140.0f), sf::Vector2f(650.0f, 950.0f));
+    Platform Key(&Key_pic, sf::Vector2f(140.0f, 140.0f), sf::Vector2f(500.0f, 500.0f));
     srand(time(NULL));
     float deltaTime = 0.0f;
     sf::Clock clock;
@@ -241,6 +244,15 @@ int main()
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && x >= 1350.0f && x <= 1550.0f && y >= 800.0f && y <= 1000.0f && GameMode==2)
         {
             GameMode = 3;
+            lock_status=0;
+            MainTime = 100.0f;
+            Item.clear();
+            Enemy.clear();
+            Pumpkin.clear();
+            Candy.clear();
+            Cookie.clear();
+            player.body.setPosition(400.0f, 800.0f);
+            b.body.setPosition(800, 915);
         } 
 
         //BACK1
@@ -267,7 +279,8 @@ int main()
             GameMode = 1;
         }
 
-        if (GameMode == 3)
+
+            spaceTime+=deltaTime;        if (GameMode == 3)
         {
             SumTime += deltaTime;
             if(SumTime >= 0.7f)
@@ -350,10 +363,16 @@ int main()
         
         
         //Update
+            
         if (GameMode == 3)
         {
-            player.Update(deltaTime);
-
+            if(lock_status==1)
+            {
+                player.canJump=false;
+                player.Update(deltaTime,0.5f);
+            }
+            else 
+                player.Update(deltaTime,1.0f);
              for (Platform& S : Item)
                 S.update(deltaTime);
 
@@ -446,8 +465,25 @@ int main()
             if (c.GetCollider().CheckCollider(playerCollision, direction, 1.0f))
                 player.OnCollosion(direction);
 
-            if (b.GetCollider().CheckCollider(playerCollision, direction, 0.5f)) {
+            if (b.GetCollider().CheckCollider(playerCollision, direction, 1.0f)) {
                 player.OnCollosion(direction);
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && spaceTime > 0.5&&player.body.getPosition().y>800)
+                {
+                    lock_status = 1;
+                    spaceTime = 0.0;
+                }
+            }
+            if(lock_status)
+            {
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		            b.body.move(-200*deltaTime,0.0f);
+	            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) )
+		            b.body.move(200*deltaTime,0.0f);
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && spaceTime > 0.5)
+                {
+                    lock_status = 0;
+                    spaceTime = 0.0;;
+                }
                 
             }
                 
@@ -490,6 +526,7 @@ int main()
             ShowScoretexet(680, 400, name, 100,sf::Color::Magenta, window, &Font);
             else ShowScoretexet(680, 400, "Enter Name", 100, sf::Color::Magenta, window, &Font);
             NEXT.Draw(window);
+            BACK1.Draw(window);
         }
         if (GameMode == 3)
         {
@@ -513,7 +550,7 @@ int main()
             Bg_Score2.Draw(window);
             Sym1_Score.Draw(window);
             Sym2_Score.Draw(window);
-            BACK2.Draw(window);
+        
             
             //Text
             Showtexet(190, 110, Score, 90, window, &Font);
