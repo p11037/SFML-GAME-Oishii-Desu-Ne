@@ -12,6 +12,7 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
+#include <SFML\Audio.hpp>
 
 using namespace std;
 static const float VIEW_HEIGHT = 1080.0f;
@@ -159,6 +160,12 @@ int main()
         BACK_pic.loadFromFile("Pic/BACK.png");
     sf::Texture Key_pic;
         Key_pic.loadFromFile("Pic/Key.png");
+    sf::Music music;
+        music.openFromFile("Music/music.wav");
+        music.setVolume(10);
+        music.play();
+        music.setLoop(true);
+    
 
     Player player(&playerTexture, sf::Vector2u(20, 3), 0.075f, 400.0f,250.0f);
     
@@ -279,10 +286,11 @@ int main()
             GameMode = 1;
         }
 
-
-            spaceTime+=deltaTime;        if (GameMode == 3)
+  
+        if (GameMode == 3)
         {
             SumTime += deltaTime;
+            spaceTime+=deltaTime;
             if(SumTime >= 0.7f)
             { 
                 R1 = rand() % 850 + 100;
@@ -475,9 +483,9 @@ int main()
             }
             if(lock_status)
             {
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && b.body.getPosition().x > 70.0f)
 		            b.body.move(-200*deltaTime,0.0f);
-	            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) )
+	            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && b.body.getPosition().x < 1850.0f)
 		            b.body.move(200*deltaTime,0.0f);
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && spaceTime > 0.5)
                 {
