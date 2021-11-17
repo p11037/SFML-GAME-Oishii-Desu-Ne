@@ -161,7 +161,7 @@ int main()
     sf::Texture Key_pic;
         Key_pic.loadFromFile("Pic/Key.png");
     sf::Music music;
-        music.openFromFile("Music/music.wav");
+        music.openFromFile("Music/music5.wav");
         music.setVolume(10);
         music.play();
         music.setLoop(true);
@@ -251,8 +251,8 @@ int main()
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && x >= 1350.0f && x <= 1550.0f && y >= 800.0f && y <= 1000.0f && GameMode==2)
         {
             GameMode = 3;
-            lock_status=0;
-            MainTime = 100.0f;
+            Score = 0, TimeCandy = 0, TimeEnemy = 0, TimeCookie = 0, TimeErase = 0,lock_status=0;
+            SumTime = 0.0f,MainTime = 100.0f,spaceTime=0.0f;
             Item.clear();
             Enemy.clear();
             Pumpkin.clear();
@@ -260,6 +260,7 @@ int main()
             Cookie.clear();
             player.body.setPosition(400.0f, 800.0f);
             b.body.setPosition(800, 915);
+            name.clear();
         } 
 
         //BACK1
@@ -496,8 +497,7 @@ int main()
             }
                 
         }
-        
-        
+           
         //delete
         while (!Item.empty() && (Item.front().body.getPosition().y > 1080.0f))
             Item.erase(Item.begin());
