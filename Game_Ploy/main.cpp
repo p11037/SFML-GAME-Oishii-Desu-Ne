@@ -160,12 +160,38 @@ int main()
         BACK_pic.loadFromFile("Pic/BACK.png");
     sf::Texture Key_pic;
         Key_pic.loadFromFile("Pic/Key.png");
+    sf::Texture Music_On_pic;
+        Music_On_pic.loadFromFile("Pic/Music_On.png");
+    sf::Texture Music_Off_pic;
+        Music_Off_pic.loadFromFile("Pic/Music_Off.png");
     sf::Music music;
         music.openFromFile("Music/music5.wav");
         music.setVolume(10);
         music.play();
         music.setLoop(true);
-    
+    sf::SoundBuffer soundbuf1;
+        soundbuf1.loadFromFile("Sound/Candy.wav");
+    sf::Sound Candy_Sound;
+        Candy_Sound.setBuffer(soundbuf1);
+        Candy_Sound.setVolume(50);
+
+    sf::SoundBuffer soundbuf2;
+        soundbuf2.loadFromFile("Sound/hit.wav");
+    sf::Sound hit;
+        hit.setBuffer(soundbuf2);
+        hit.setVolume(60);
+
+    sf::SoundBuffer soundbuf3;
+        soundbuf3.loadFromFile("Sound/tap.wav");
+    sf::Sound tap;
+        tap.setBuffer(soundbuf3);
+        tap.setVolume(100);
+
+    sf::SoundBuffer soundbuf4;
+        soundbuf4.loadFromFile("Sound/Cookie.wav");
+    sf::Sound Cookies;
+        Cookies.setBuffer(soundbuf4);
+        Cookies.setVolume(20);
 
     Player player(&playerTexture, sf::Vector2u(20, 3), 0.075f, 400.0f,250.0f);
     
@@ -410,6 +436,7 @@ int main()
             for (Platform& S : Item)
                 if (S.GetCollider().CheckCollider(playerCollision))
                 {
+                    tap.play();
                     S.body.setPosition(S.body.getPosition().x,1800.0f );
                     Score+=2; 
                 }
@@ -417,17 +444,16 @@ int main()
             for (Platform& S : Candy)
                 if (S.GetCollider().CheckCollider(playerCollision))
                 {
+                    Candy_Sound.play();
                     S.body.setPosition(S.body.getPosition().x, 1800.0f);
                     MainTime +=2.0f;
-                    
-              
                 }
 
             for (Platform& S : Enemy)
                 if (S.GetCollider().CheckCollider(playerCollision))
                 {
+                    hit.play();
                     S.body.setPosition(S.body.getPosition().x, 1800.0f);
-                
                     Score -= 5;
                     if (Score < 0) Score = 0;
                     MainTime -= 2.5f;
@@ -436,17 +462,18 @@ int main()
             for (Platform& S : Pumpkin)
                 if (S.GetCollider().CheckCollider(playerCollision))
                 {
+                    hit.play();
                     S.body.setPosition(S.body.getPosition().x, 1800.0f);
                     if (Score < 0) Score = 0;
                     Score -= 10;
                     if (Score < 0) Score = 0;
                     MainTime -= 2.5f;
-                    
                 }
 
             for (Platform& S : Cookie)
                 if (S.GetCollider().CheckCollider(playerCollision))
                 {
+                    Cookies.play();
                     S.body.setPosition(S.body.getPosition().x, 1800.0f);
                     Score += 20;
                 }
