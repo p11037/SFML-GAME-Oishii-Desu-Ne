@@ -225,7 +225,7 @@ int main()
     Platform Music_On(&Music_On_pic, sf::Vector2f(110.0f, 70.0f), sf::Vector2f(1800.0f, 100.0f));
     Platform Music_Off(&Music_Off_pic, sf::Vector2f(110.0f, 70.0f), sf::Vector2f(1800.0f, 100.0f));
     Platform s_n(&s_n_pic, sf::Vector2f(500.0f, 200.0f), sf::Vector2f(270.0f, 1030.0f));
-    Platform Name(&name_pic, sf::Vector2f(450.0f, 200.0f), sf::Vector2f(270.0f, 1020.0f));
+    Platform Name(&name_pic, sf::Vector2f(450.0f, 200.0f), sf::Vector2f(270.0f, 1030.0f));
     srand(time(NULL));
     float deltaTime = 0.0f;
     sf::Clock clock;
