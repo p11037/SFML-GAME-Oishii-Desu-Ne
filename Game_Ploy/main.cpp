@@ -159,12 +159,10 @@ int main()
         EXIT_pic.loadFromFile("Pic/EXIT.png");
     sf::Texture BACK_pic;
         BACK_pic.loadFromFile("Pic/BACK.png");
-    sf::Texture Key_pic;
-        Key_pic.loadFromFile("Pic/Key.png");
-    sf::Texture s_n_pic;
-        s_n_pic.loadFromFile("Pic/s_n.png");
-    sf::Texture name_pic;
-        name_pic.loadFromFile("Pic/name.png");
+    sf::Texture ABOUT_pic;
+        ABOUT_pic.loadFromFile("Pic/ABOUT.png");
+    sf::Texture story_pic;
+        story_pic.loadFromFile("Pic/story.png");
     sf::Texture Music_On_pic;
         Music_On_pic.loadFromFile("Pic/Music_On.png");
     sf::Texture Music_Off_pic;
@@ -221,11 +219,11 @@ int main()
     Platform EXIT(&EXIT_pic, sf::Vector2f(200.0f, 200.0f), sf::Vector2f(1370.0f, 800.0f));
     Platform EXIT2(&EXIT_pic, sf::Vector2f(150.0f, 150.0f), sf::Vector2f(1200.0f, 950.0f));
     Platform BACK(&BACK_pic, sf::Vector2f(140.0f, 140.0f), sf::Vector2f(650.0f, 950.0f));
-    Platform Key(&Key_pic, sf::Vector2f(140.0f, 140.0f), sf::Vector2f(500.0f, 500.0f));
+    Platform BACK3(&BACK_pic, sf::Vector2f(140.0f, 140.0f), sf::Vector2f(600.0f, 850.0f));
     Platform Music_On(&Music_On_pic, sf::Vector2f(110.0f, 70.0f), sf::Vector2f(1800.0f, 100.0f));
     Platform Music_Off(&Music_Off_pic, sf::Vector2f(110.0f, 70.0f), sf::Vector2f(1800.0f, 100.0f));
-    Platform s_n(&s_n_pic, sf::Vector2f(500.0f, 200.0f), sf::Vector2f(270.0f, 1030.0f));
-    Platform Name(&name_pic, sf::Vector2f(450.0f, 200.0f), sf::Vector2f(270.0f, 1030.0f));
+    Platform ABOUT(&ABOUT_pic, sf::Vector2f(140.0f, 140.0f), sf::Vector2f(95.0f, 1020.0f));
+    Platform story(&story_pic, sf::Vector2f(1300.0f, 800.0f), sf::Vector2f(960.0f, 540.0f));
     srand(time(NULL));
     float deltaTime = 0.0f;
     sf::Clock clock;
@@ -329,6 +327,13 @@ int main()
             GameMode = 1;
         }
 
+        //BACK3
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && x >= 530.0f && x <= 670.0f && y >= 780.0f && y <= 920.0f && GameMode == 5)
+        {
+            while (sf::Mouse::isButtonPressed(sf::Mouse::Left));
+            GameMode = 1;
+        }
+
         //Music 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && x >= 1745.0f && x <= 1855.0f && y >= 65.0f && y <= 135.0f && GameMode == 1 && status==1)
         {
@@ -344,6 +349,12 @@ int main()
             music.play();
         }
 
+        //ABOUT
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && x >= 25.0f && x <= 165.0f && y >= 950.0f && y <= 1090.0f && GameMode == 1)
+        {
+            while (sf::Mouse::isButtonPressed(sf::Mouse::Left));
+            GameMode = 5;
+        }
   
         if (GameMode == 3)
         {
@@ -583,16 +594,11 @@ int main()
             SCORE.Draw(window);
             PLAY.Draw(window);
             EXIT.Draw(window);
-            s_n.Draw(window);
-            Name.Draw(window);
+            ABOUT.Draw(window);
+            
             if(status)         
             Music_On.Draw(window);
-            else Music_Off.Draw(window);
-
-           // ShowScoretexet(50, 1000, "64010813 Vimonsiri Thammada", 30, sf::Color::Black, window, &Font);
-
-
-           
+            else Music_Off.Draw(window);           
         }
         if (GameMode == 2)
         {
@@ -643,6 +649,13 @@ int main()
             EXIT2.Draw(window);
             Scoreboard.Draw(window);
             Showscoreboard(window, 700.0f);
+        }
+
+        if (GameMode == 5)
+        {
+            Background.Draw(window);
+            story.Draw(window);
+            BACK3.Draw(window);
         }
         
         window.display();
