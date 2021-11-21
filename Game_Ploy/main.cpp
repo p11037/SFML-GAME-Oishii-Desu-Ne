@@ -109,7 +109,7 @@ int main()
     int R1 = 0,R2 = 0;
     int status = 1;
     string name;
-    sf::RenderWindow window(sf::VideoMode(VIEW_WIDTH, VIEW_HEIGHT), "Game's Ploy", sf::Style::Titlebar | sf::Style::Close | sf::Style::Fullscreen);
+    sf::RenderWindow window(sf::VideoMode(VIEW_WIDTH, VIEW_HEIGHT), "Game's Ploy", sf::Style::Titlebar | sf::Style::Close   | sf::Style::Fullscreen);
     //sf::View view(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(1020, 1080));
     sf::Texture playerTexture;
         playerTexture.loadFromFile("Pic/main.png");
