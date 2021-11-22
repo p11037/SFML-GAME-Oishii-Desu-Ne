@@ -267,6 +267,7 @@ int main()
         {
             while (sf::Mouse::isButtonPressed(sf::Mouse::Left));
             GameMode = 2;
+            name.clear();
         }
 
         //SCORE
@@ -297,7 +298,6 @@ int main()
             Cookie.clear();
             player.body.setPosition(400.0f, 800.0f);
             b.body.setPosition(800, 915);
-            name.clear();
         } 
 
         //BACK1
